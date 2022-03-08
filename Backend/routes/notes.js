@@ -33,7 +33,7 @@ router.post(
     }
   }
 );
-// Fetch Notes of a User. GET "api/notes/add-note"  login required
+// Fetch Notes of a User. GET "api/notes/fetch-note"  login required
 router.get(
   "/fetch-notes",
 

@@ -6,7 +6,7 @@ const NoteState = (props)=>{
   
    const inital = []
    const host ="http://localhost:5000"     
-       
+   console.log(localStorage.getItem('token'))
     const [notes, setNotes] = useState(inital);
     //Fetch Notes
     const fetchNotes = async ()=>{
@@ -17,7 +17,7 @@ const NoteState = (props)=>{
         
         headers: {
           'Content-Type': 'application/json',
-          'token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjIxNjBiNWMwMzA0YWNjMjY5MjRkYTM5In0sImlhdCI6MTY0NTYxMTg2OH0.D6prkzpltS41CDWx3o-5MetqNJzhE_3avH6V87O3lFg'
+          'token':localStorage.getItem('token')
         },
         
         
@@ -30,20 +30,22 @@ const NoteState = (props)=>{
 
 
     //Adding a note
-    console.log("add")
+    
     const addNote =async  (title,description,category)=>{
+      console.log("add")
       const response = await fetch(`${host}/api/notes/add-note`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
        
         
         headers: {
           'Content-Type': 'application/json',
-          'token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjIxNjBiNWMwMzA0YWNjMjY5MjRkYTM5In0sImlhdCI6MTY0NTYxMTg2OH0.D6prkzpltS41CDWx3o-5MetqNJzhE_3avH6V87O3lFg'
+          'token':localStorage.getItem('token')
         },
         body: JSON.stringify({title,description,category})
         
       });
       const added_note = await response.json()
+      console.log(added_note)
       setNotes(notes.concat(added_note))
     }
     //Delete a note
@@ -58,7 +60,7 @@ const NoteState = (props)=>{
       
       headers: {
         'Content-Type': 'application/json',
-        'token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjIxNjBiNWMwMzA0YWNjMjY5MjRkYTM5In0sImlhdCI6MTY0NTYxMTg2OH0.D6prkzpltS41CDWx3o-5MetqNJzhE_3avH6V87O3lFg'
+        'token':localStorage.getItem('token')
       },
       
       
@@ -71,12 +73,39 @@ const NoteState = (props)=>{
 
 
   
-    const updateNote = (id)=>{
-
-    }
+    const update = async (id,title,description,category)=>{
+     
+        const response = await fetch(`${host}/api/notes/update-note/${id}`, {
+          method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+         
+          
+          headers: {
+            'Content-Type': 'application/json',
+            'token':localStorage.getItem('token')
+          },
+          body: JSON.stringify({title,description,category})
+          
+        });
+        const updated_note = await response.json()
+        let newNotes = JSON.parse(JSON.stringify(notes))
+        for (let index = 0; index < notes.length; index++) {
+          const element = newNotes[index]
+          if (element._id===id){
+            newNotes[index].title=title
+            newNotes[index].description=description
+            newNotes[index].category=category
+            break;
+          }
+          
+          
+        }
+      setNotes(newNotes)
+      }
+     
+    
     
     return(
-        <noteContext.Provider value={{notes,addNote,deleteNote,updateNote,fetchNotes}}>
+        <noteContext.Provider value={{notes,addNote,deleteNote,update,fetchNotes}}>
             { props.children }
         </noteContext.Provider>
     )

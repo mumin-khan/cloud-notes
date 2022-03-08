@@ -14,16 +14,17 @@ body('email','Invalid-email').isEmail(),
 body('password').isLength({ min: 5 }),
 
 async (req, res) => {
+  let success = false;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({success, errors: errors.array() });
   } 
   try {
     
  
   let user = await User.findOne({email:req.body.email})
   if (user){
-    return res.status(400).json({error : 'A user with this email already exists !'})
+    return res.status(400).json({success,error : 'A user with this email already exists !'})
   } 
 
   const salt = await bcrypt.genSalt(10);
@@ -39,8 +40,9 @@ async (req, res) => {
     id : user.id
   }
     }
-  const jwt_token = jwt.sign(data,jwt_secret)
-  res.json({jwt_token})
+  const token = jwt.sign(data,jwt_secret)
+  success=true
+  res.json({success,token})
 
 } catch (error) {
     console.error(error)
@@ -53,20 +55,21 @@ body('email','Invalid-email').isEmail(),
 body('password').isLength({ min: 1 }),
 
 async (req, res) => {
+  let success = false;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({success, errors: errors.array() });
   } 
   try {
     
  const {email,password} = req.body
   let user = await User.findOne({email})
   if (!user){
-    return res.status(400).json({error : 'Either email or/and password is incorrect'})
+    return res.status(400).json({success,error : 'Either email or/and password is incorrect'})
   } 
   const real_user = await bcrypt.compare(password,user.password)
   if (!real_user){
-    return res.status(400).json({error : 'Either email or/and password is incorrect'})
+    return res.status(400).json({success,error : 'Either email or/and password is incorrect'})
   } 
   
   const  data = 
@@ -74,8 +77,9 @@ async (req, res) => {
     id : user.id
   }
     }
-  const jwt_token = jwt.sign(data,jwt_secret)
-  res.json({jwt_token})
+  const token = jwt.sign(data,jwt_secret)
+  success=true
+  res.json({success,token})
 
 } catch (error) {
     console.error(error)

@@ -1,7 +1,17 @@
 import React from "react";
-import { useLocation, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useEffect,useContext } from "react";
+import alertContext from "../context/alert/alertContext";
 const Navbar = () => {
+  const alert_context = useContext(alertContext)
+   const  {activate} = alert_context
+  const navigate = useNavigate()
+  const logout=()=>{
+    localStorage.removeItem('token')
+    navigate('/login')
+    activate({type:'success',msg:"Successfully logged out "})
+
+  }
   let location = useLocation();
   useEffect(() => {
     console.log(location.pathname);
@@ -47,18 +57,12 @@ const Navbar = () => {
                   About Us
                 </Link>
               </li>
+             
             </ul>
-            <form className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
+          { !localStorage.getItem('token')?<form className="d-flex">
+              <Link className="btn btn-primary mx-2" to="/login" role="button" >Login</Link>
+              <Link className="btn btn-primary " to="/signup" role="button" >SignUp</Link>
+              </form>:<button className="btn btn-primary"  onClick={logout}>Logout</button>}
           </div>
         </div>
       </nav>

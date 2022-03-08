@@ -1,10 +1,15 @@
 import React , {useContext} from 'react'
 import noteContext from '../context/notes/noteContext'
-
+import alertContext from '../context/alert/alertContext'
 const Noteitem = (props) => {
-    const {note} = props;
+    const {note,updateNote} = props
     const context = useContext(noteContext)
   const {deleteNote} = context
+  const alert_context = useContext(alertContext)
+   const  {activate} = alert_context
+
+
+  
   return (
     <div className='col-md-3'>
         <div className="card my-3" >
@@ -16,19 +21,22 @@ const Noteitem = (props) => {
       <div className='d-flex align-items-center'>
         <h5 className="card-title"> {note.title}</h5>
       
-      <i className="  far fa-trash-alt mx-5 " onClick={()=> deleteNote(note._id)}></i>
-      <i className=" far fa-edit mx-9"></i>
+      <i className="  far fa-trash-alt mx-5 " onClick={()=> {deleteNote(note._id);
+            activate({type:'success',msg:"Note Deleted successfully"})
+}}></i>
+      <i className=" far fa-edit mx-9" onClick={()=> updateNote(note)}></i>
+
       
       </div>
       
-      <p className="card-text"> {note.description} </p>
+      <p className="card-text"> {note.description} </p>      
       
-
+      
     </div>
   </div>
         
     </div>
   )
-}
 
+  }
 export default Noteitem
