@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 router.post(
   "/add-note",
   body("title", "Invalid-title").isLength({ min: 5 }),
-  body("description", "You got to use more words").isLength({ min: 8 }),
+  body("description", "You got to use more words").isLength({ min: 1 }),
   fetchuser,
   async (req, res) => {
     const errors = validationResult(req);

@@ -1,0 +1,19 @@
+#box
+{
+    border: 2px solid rgba(69, 67, 67, 0.744);
+    width: 20%;
+    padding: 10px;
+}
+
+.form-control
+{
+    box-shadow: 5px 5px grey;
+    border: 1px solid grey;
+}
+.bar
+{
+Position:fixed;
+Left:0;
+Right:0;
+Top:0;
+}

@@ -7,7 +7,9 @@ const Home = () => {
   return (
     <div>
      <h2 className=''>Cloud-Notebook</h2>
+     
      <div className="container">
+     <hr/>
        <Note/>
      </div>
     </div>

@@ -21,14 +21,13 @@ const Noteitem = (props) => {
       <div className='d-flex align-items-center'>
         <h5 className="card-title"> {note.title}</h5>
       
-      <i className="  far fa-trash-alt mx-5 " onClick={()=> {deleteNote(note._id);
+      <i className="  far fa-trash-alt mx-3 mb-1" onClick={()=> {deleteNote(note._id);
             activate({type:'success',msg:"Note Deleted successfully"})
 }}></i>
-      <i className=" far fa-edit mx-9" onClick={()=> updateNote(note)}></i>
+      <i className=" far fa-edit mx-3 mb-1" onClick={()=> updateNote(note)}></i>
 
-      
       </div>
-      
+      <hr/>      
       <p className="card-text"> {note.description} </p>      
       
       

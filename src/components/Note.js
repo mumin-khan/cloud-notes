@@ -53,27 +53,33 @@ const Note = () => {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <h5 className="modal-title" id="staticBackdropLabel">EDIT NOTE</h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
               <form onSubmit={submit}>
   <div className="mb-3">
-    <label htmlFor="title" className="form-label">Title</label>
-    <input type="text" className="form-control" name="etitle"  minLength={5}  required  value={note.etitle} id="etitle" aria-describedby="emailHelp" onChange={change}/>
+  
+    <label htmlFor="title " className="form-label d-flex align-items-center justify-content-center"><h6>Title</h6></label>
+    <div className='d-flex align-items-center justify-content-center'>
+    <input type="text" className="form-control w-25" name="etitle"  minLength={5}  required  value={note.etitle} id="etitle" aria-describedby="emailHelp" onChange={change}/>
+    </div>
     </div>
   <div className="mb-3">
-    <label htmlFor="description" className="form-label">Description</label>
-    <input type="text" className="form-control" value={note.edescription}  minLength={5}  required   name="edescription" id="edescription" onChange={change} />
+    <label htmlFor="description" className="form-label"><h6>Description</h6></label>
+    <textarea type="text" rows={5} className="form-control" value={note.edescription}   required   name="edescription" id="edescription" onChange={change} />
   </div>
   <div className="mb-3">
-    <label htmlFor="category" className="form-label">Category</label>
-    <input type="text" className="form-control"  value = {note.ecategory }   minLength={5}  required name="ecategory" id="ecategory" onChange={change} />
+    <label htmlFor="category" className="form-label"><h6>Category</h6></label>
+    <input type="text" className="form-control" style={{"width":"100px"}} value = {note.ecategory }    name="ecategory" id="ecategory" onChange={change} />
   </div>
   
-  <button type="submit" className="btn btn-primary">Update</button>
+  <button type="submit" className="btn btn-secondary">Update</button>
 </form>
-              </div>
+<div class="d-flex flex-column">
+<tex className='mt-2't>{note.edescription.split(/[" "]|\n/).filter((element)=>{return element!==""}).length} words and {note.edescription.length} characters</tex>
+  <text>{note.edescription.split(/[" "]|\n/).filter((element)=>{return element!==""}).length*.08} minutes read </text>
+  </div>             </div>
               <div className="modal-footer">
                 <button ref = {refClose}type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               
@@ -82,8 +88,9 @@ const Note = () => {
           </div>
         </div>
     <AddNote />
-    <div>
-    {notes.length===0 ?'No notes to display':  <h4 className='mt-2'>Your Notes</h4>}
+    <hr/>
+    <div className='mt-3'>
+    {notes.length===0 ?<h3>No notes to display</h3>:  <h4 className='mt-2'>Your Notes</h4>}
     </div>
   
     <div className='row my-3'>
