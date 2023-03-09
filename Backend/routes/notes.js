@@ -68,9 +68,8 @@ router.put("/update-note/:id", fetchuser, async (req, res) => {
       return res.status(404).send("Not Found");
     }
     if (note.user.toString() !== req.user.id) {
-      {
+      
         return res.status(401).send("You don;t have the authourity");
-      }
     }
     note = await Notes.findByIdAndUpdate(req.params.id, newNote, { new: true });
     res.json(note);
@@ -87,9 +86,9 @@ router.delete("/delete-note/:id", fetchuser, async (req, res) => {
       return res.status(404).send("Not Found");
     }
     if (note.user.toString() !== req.user.id) {
-      {
-        return res.status(401).send("You don;t have the authourity");
-      }
+      
+        return res.status(401).send("You don't have the authourity");
+      
     }
     note = await Notes.findByIdAndDelete(req.params.id);
     res.json({ message: "successful", note: note });
